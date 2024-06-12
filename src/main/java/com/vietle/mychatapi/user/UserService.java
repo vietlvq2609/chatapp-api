@@ -32,8 +32,8 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Value("${spring.cloud.azure.storage.blob.account-name}")
-    private String accountName;
+    // @Value("${spring.cloud.azure.storage.blob.account-name}")
+    // private String accountName;
 
     @Value("${spring.cloud.azure.storage.blob.account-key}")
     private String accountKey;
@@ -47,7 +47,7 @@ public class UserService implements UserDetailsService {
     private BlobContainerClient getBlobContainerClient() {
         return new BlobContainerClientBuilder()
                 .connectionString(String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s;EndpointSuffix=core.windows.net",
-                        accountName, accountKey))
+                        "bellchat", accountKey))
                 .containerName(containerName)
                 .buildClient();
     }
