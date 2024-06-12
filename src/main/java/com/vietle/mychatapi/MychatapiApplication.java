@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 public class MychatapiApplication {
-	
+
 	public static void main(String[] args) {
 		SpringApplication.run(MychatapiApplication.class, args);
 	}
@@ -20,6 +20,7 @@ public class MychatapiApplication {
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
 					.allowedOrigins("*")
+					.allowedHeaders("*")
 					.allowedMethods("GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS");
 			}
 		};
