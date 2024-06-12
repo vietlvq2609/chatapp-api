@@ -21,18 +21,6 @@ jobs:
         with:
           java-version: '17'
 
-      - name: Set environment variables
-        run: |
-          echo "AZURE_POSTGRESQL_CONNECTIONSTRING=${{ secrets.AZURE_POSTGRESQL_CONNECTIONSTRING }}" >> $GITHUB_ENV
-          echo "AZURE_POSTGRESQL_USERNAME=${{ secrets.AZURE_POSTGRESQL_USERNAME }}" >> $GITHUB_ENV
-          echo "AZURE_POSTGRESQL_PASSWORD=${{ secrets.AZURE_POSTGRESQL_PASSWORD }}" >> $GITHUB_ENV
-          echo "AZURE_BLOBSTORAGE_ACCOUNT_NAME=${{ secrets.AZURE_BLOBSTORAGE_ACCOUNT_NAME }}" >> $GITHUB_ENV
-          echo "AZURE_BLOBSTORAGE_ACCOUNT_KEY=${{ secrets.AZURE_BLOBSTORAGE_ACCOUNT_KEY }}" >> $GITHUB_ENV
-          echo "AZURE_BLOBSTORAGE_ENDPOINT=${{ secrets.AZURE_BLOBSTORAGE_ENDPOINT }}" >> $GITHUB_ENV
-          echo "AZURE_BLOBSTORAGE_CONTAINER_NAME=${{ secrets.AZURE_BLOBSTORAGE_CONTAINER_NAME }}" >> $GITHUB_ENV
-          echo "MAINSITE_JWT_SECRET=${{ secrets.MAINSITE_JWT_SECRET }}" >> $GITHUB_ENV
-          echo "MAINSITE_JWT_EXPIRATION=${{ secrets.MAINSITE_JWT_EXPIRATION }}" >> $GITHUB_ENV
-
       - name: Build with Maven
         run: mvn clean install
 
@@ -60,21 +48,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_163E3275757B4380A2BE03EA347C173B }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_ED487F559A414692AC227A29A31E754F }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_080005D4AF014E65804FD8EE33E96916 }}
-      
-      - name: Set environment variables for deployment
-        run: |
-          echo "AZURE_POSTGRESQL_CONNECTIONSTRING=${{ secrets.AZURE_POSTGRESQL_CONNECTIONSTRING }}" >> $GITHUB_ENV
-          echo "AZURE_POSTGRESQL_USERNAME=${{ secrets.AZURE_POSTGRESQL_USERNAME }}" >> $GITHUB_ENV
-          echo "AZURE_POSTGRESQL_PASSWORD=${{ secrets.AZURE_POSTGRESQL_PASSWORD }}" >> $GITHUB_ENV
-          echo "AZURE_BLOBSTORAGE_ACCOUNT_NAME=${{ secrets.AZURE_BLOBSTORAGE_ACCOUNT_NAME }}" >> $GITHUB_ENV
-          echo "AZURE_BLOBSTORAGE_ACCOUNT_KEY=${{ secrets.AZURE_BLOBSTORAGE_ACCOUNT_KEY }}" >> $GITHUB_ENV
-          echo "AZURE_BLOBSTORAGE_ENDPOINT=${{ secrets.AZURE_BLOBSTORAGE_ENDPOINT }}" >> $GITHUB_ENV
-          echo "AZURE_BLOBSTORAGE_CONTAINER_NAME=${{ secrets.AZURE_BLOBSTORAGE_CONTAINER_NAME }}" >> $GITHUB_ENV
-          echo "MAINSITE_JWT_SECRET=${{ secrets.MAINSITE_JWT_SECRET }}" >> $GITHUB_ENV
-          echo "MAINSITE_JWT_EXPIRATION=${{ secrets.MAINSITE_JWT_EXPIRATION }}" >> $GITHUB_ENV
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_026F34AB77244F56950CEFF987846FBE }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_570667AE4F54413E91C7C2D06CA032AF }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_D32C80138BF745BD84CF9A191DBD8537 }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
