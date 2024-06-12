@@ -8,14 +8,13 @@ Bell Chat Application - Developed by Viet Le.
 
 ## About the Project
 
-Brief description of what the project is, its purpose, and any problems it aims to solve.
+A basic realtime chat application made by Viet Le.
 
 ## Features
 
-- Feature 1
-- Feature 2
-- Feature 3
-- ...
+- Register / Login
+- Realtime Chat
+- Edit profile
 
 ## Technologies Used
 
