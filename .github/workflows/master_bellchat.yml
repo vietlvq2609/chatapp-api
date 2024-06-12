@@ -1,7 +1,4 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
-name: Build and deploy JAR app to Azure Web App - bellchat
+name: Build and deploy JAR app to Azure Web App - mychatapi
 
 on:
   push:
@@ -21,6 +18,18 @@ jobs:
         with:
           java-version: '17'
 
+      - name: Set environment variables
+        run: |
+          echo "AZURE_POSTGRESQL_CONNECTIONSTRING=${{ secrets.AZURE_POSTGRESQL_CONNECTIONSTRING }}" >> $GITHUB_ENV
+          echo "AZURE_POSTGRESQL_USERNAME=${{ secrets.AZURE_POSTGRESQL_USERNAME }}" >> $GITHUB_ENV
+          echo "AZURE_POSTGRESQL_PASSWORD=${{ secrets.AZURE_POSTGRESQL_PASSWORD }}" >> $GITHUB_ENV
+          echo "AZURE_BLOBSTORAGE_ACCOUNT_NAME=${{ secrets.AZURE_BLOBSTORAGE_ACCOUNT_NAME }}" >> $GITHUB_ENV
+          echo "AZURE_BLOBSTORAGE_ACCOUNT_KEY=${{ secrets.AZURE_BLOBSTORAGE_ACCOUNT_KEY }}" >> $GITHUB_ENV
+          echo "AZURE_BLOBSTORAGE_ENDPOINT=${{ secrets.AZURE_BLOBSTORAGE_ENDPOINT }}" >> $GITHUB_ENV
+          echo "AZURE_BLOBSTORAGE_CONTAINER_NAME=${{ secrets.AZURE_BLOBSTORAGE_CONTAINER_NAME }}" >> $GITHUB_ENV
+          echo "MAINSITE_JWT_SECRET=${{ secrets.MAINSITE_JWT_SECRET }}" >> $GITHUB_ENV
+          echo "MAINSITE_JWT_EXPIRATION=${{ secrets.MAINSITE_JWT_EXPIRATION }}" >> $GITHUB_ENV
+
       - name: Build with Maven
         run: mvn clean install
 
@@ -37,26 +46,37 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write #This is required for requesting the JWT
-  
+      id-token: write # This is required for requesting the JWT
+
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
           name: java-app
-      
+
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_5DA75AAFEC46463FA1AC089FC151A89D }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_142A8F53200346CF827CC1235F24940D }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_D69D1487948541079BE0C517C202D687 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
+
+      - name: Set environment variables for deployment
+        run: |
+          echo "AZURE_POSTGRESQL_CONNECTIONSTRING=${{ secrets.AZURE_POSTGRESQL_CONNECTIONSTRING }}" >> $GITHUB_ENV
+          echo "AZURE_POSTGRESQL_USERNAME=${{ secrets.AZURE_POSTGRESQL_USERNAME }}" >> $GITHUB_ENV
+          echo "AZURE_POSTGRESQL_PASSWORD=${{ secrets.AZURE_POSTGRESQL_PASSWORD }}" >> $GITHUB_ENV
+          echo "AZURE_BLOBSTORAGE_ACCOUNT_NAME=${{ secrets.AZURE_BLOBSTORAGE_ACCOUNT_NAME }}" >> $GITHUB_ENV
+          echo "AZURE_BLOBSTORAGE_ACCOUNT_KEY=${{ secrets.AZURE_BLOBSTORAGE_ACCOUNT_KEY }}" >> $GITHUB_ENV
+          echo "AZURE_BLOBSTORAGE_ENDPOINT=${{ secrets.AZURE_BLOBSTORAGE_ENDPOINT }}" >> $GITHUB_ENV
+          echo "AZURE_BLOBSTORAGE_CONTAINER_NAME=${{ secrets.AZURE_BLOBSTORAGE_CONTAINER_NAME }}" >> $GITHUB_ENV
+          echo "MAINSITE_JWT_SECRET=${{ secrets.MAINSITE_JWT_SECRET }}" >> $GITHUB_ENV
+          echo "MAINSITE_JWT_EXPIRATION=${{ secrets.MAINSITE_JWT_EXPIRATION }}" >> $GITHUB_ENV
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'bellchat'
+          app-name: 'mychatapi'
           slot-name: 'Production'
           package: '*.jar'
-          
