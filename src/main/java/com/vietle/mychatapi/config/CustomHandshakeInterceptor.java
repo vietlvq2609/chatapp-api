@@ -24,7 +24,8 @@ public class CustomHandshakeInterceptor implements HandshakeInterceptor {
         ServerHttpRequest request,
         ServerHttpResponse response,
         WebSocketHandler wsHandler,
-        Exception exception) {
-        // After handshake logic, if needed
+        Exception exception
+    ) {
+        response.getHeaders().add("Access-Control-Allow-Credentials", "true");
     }
 }
