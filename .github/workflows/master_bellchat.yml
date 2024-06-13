@@ -1,6 +1,5 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Build and deploy JAR app to Azure Web App - bellchat
 
 on:
@@ -32,6 +31,7 @@ jobs:
           echo "AZURE_BLOBSTORAGE_CONTAINER_NAME=${{ secrets.AZURE_BLOBSTORAGE_CONTAINER_NAME }}" >> $GITHUB_ENV
           echo "MAINSITE_JWT_SECRET=${{ secrets.MAINSITE_JWT_SECRET }}" >> $GITHUB_ENV
           echo "MAINSITE_JWT_EXPIRATION=${{ secrets.MAINSITE_JWT_EXPIRATION }}" >> $GITHUB_ENV
+          echo "APP_ALLOWED_ORIGINS=${{ secrets.APP_ALLOWED_ORIGINS }}" >> $GITHUB_ENV
 
       - name: Build with Maven
         run: mvn clean install
@@ -50,13 +50,13 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
       id-token: write #This is required for requesting the JWT
-  
+
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
           name: java-app
-      
+
       - name: Login to Azure
         uses: azure/login@v1
         with:
@@ -75,6 +75,7 @@ jobs:
           echo "AZURE_BLOBSTORAGE_CONTAINER_NAME=${{ secrets.AZURE_BLOBSTORAGE_CONTAINER_NAME }}" >> $GITHUB_ENV
           echo "MAINSITE_JWT_SECRET=${{ secrets.MAINSITE_JWT_SECRET }}" >> $GITHUB_ENV
           echo "MAINSITE_JWT_EXPIRATION=${{ secrets.MAINSITE_JWT_EXPIRATION }}" >> $GITHUB_ENV
+          echo "APP_ALLOWED_ORIGINS=${{ secrets.APP_ALLOWED_ORIGINS }}" >> $GITHUB_ENV
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -83,4 +84,3 @@ jobs:
           app-name: 'bellchat'
           slot-name: 'Production'
           package: '*.jar'
-          
