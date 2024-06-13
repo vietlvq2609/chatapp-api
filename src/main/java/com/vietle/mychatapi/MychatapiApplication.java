@@ -24,6 +24,7 @@ public class MychatapiApplication {
 				registry.addMapping("/**")
 					.allowedOrigins(allowedOrigins)
 					.allowedMethods("GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS")
+					.allowedHeaders("*")
 					.allowCredentials(true);
 			}
 		};
