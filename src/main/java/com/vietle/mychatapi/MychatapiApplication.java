@@ -23,7 +23,8 @@ public class MychatapiApplication {
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
 					.allowedOrigins(allowedOrigins)
-					.allowedMethods("GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS");
+					.allowedMethods("GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS")
+					.allowCredentials(true);
 			}
 		};
 	}
